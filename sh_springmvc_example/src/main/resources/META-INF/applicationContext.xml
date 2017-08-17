@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
+
+    <!--在spring4之后，spring配置的bean不是在xml文件中配置了，而是采用固定扫描annotation的类，
+    根据对象的类型或者名字自动加载，但此前提是我们仍然要在配置文件中配置好这些类所在包的路径。-->
+
+    <context:component-scan base-package="com.yang.example.service"/>
+    <!--其中com.yang.example.entity则是我们MVC模式中model或称为JavaBean的文件夹目录，其格式应与数据库中字段相同；
+    com.yang.example.DAO是访问数据库要使用DAO，即数据访问对象的目录。我们把这些同service都交给spring管理-->
+    <context:component-scan base-package="com.yang.example.entity"/>
+    <context:component-scan base-package="com.yang.example.DAO"/>
+
+    <!--spring的配置文件中添加索引，指向我们的hibernate的配置是什么-->
+    <import resource="infrastructure.xml"/>
+
+</beans>

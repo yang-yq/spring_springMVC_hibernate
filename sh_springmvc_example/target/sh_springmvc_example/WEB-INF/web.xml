@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         metadata-complete="true" version="3.0">
+
+  <!--配置SpringMVC,SpringMVC的配置文件为(自己设置的servlet-name)-servlet，路径默认在WEB-INF文件下-->
+  <servlet>
+    <servlet-name>spring-dispatcher</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>spring-dispatcher</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+
+  <!--配置Spring,配置文件为/resource/META-INF/applicationContext.xml-->
+  <!--Hibernate通过SessionFactory来获取Session,我们要在spring的配置文件中配置一个我们所需的SessionFactory，
+  为了便于修改，我们新建一个配置文件，路径与spring的配置文件相同，我们新建一个infrastructure.xml-->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:/META-INF/applicationContext.xml,classpath:/META-INF/infrastructure.xml</param-value>
+  </context-param>
+
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+
+  <filter>
+    <filter-name>hibernateFilter</filter-name>
+    <filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>hibernateFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!-- Spring字符集过滤器 -->
+  <filter>
+    <filter-name>encodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+    <init-param>
+      <param-name>forceEncoding</param-name>
+      <param-value>true</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>encodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+</web-app>
